@@ -13,6 +13,11 @@ app.use(
     })
 )
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 app.use('/api', require("./src/authentication/router.ts"))
 app.use('/api', jwt.authenticateToken, require("./src/users/router.ts"))
 app.use('/api', jwt.authenticateToken, require("./src/posts/router.ts"))
