@@ -8,7 +8,7 @@ const login = (request, response, next) => {
         if (error) {
             next(error.message);
         } else if (result.rows.length === 0){
-            response.status(403)
+            response.status(403).send("Wrong credentials");
         } else {
             response.status(200).json({jwt: jwt.generateAccessToken(result.rows[0].id)})
         }
