@@ -1,7 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const port = 5000
+const port = 5050
+const cors = require('cors')
+
 const jwt = require("./src/authentication/utils/jwt.ts");
 require('dotenv').config()
 require('./src/db/setup.ts').setupDb();
@@ -13,15 +15,12 @@ app.use(
     })
 )
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors())
 app.use('/api', require("./src/authentication/router.ts"))
 app.use('/api', jwt.authenticateToken, require("./src/users/router.ts"))
 app.use('/api', jwt.authenticateToken, require("./src/posts/router.ts"))
 app.use('/api', jwt.authenticateToken, require("./src/followers/router.ts"))
+
 app.use((err, req, res, next) => {
     res.status(500).send(err);
 })
