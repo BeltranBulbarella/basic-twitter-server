@@ -31,10 +31,10 @@ const signUp = (request, response, next) => {
     })
 }
 
-const refreshAccessToken = (token) => {
+const refreshAccessToken = (req, res) => {
+    const {token} = req.body;
     const decodedToken = jwt.decode(token);
-    const newToken = jwt.generateAccessToken(decodedToken.userId);
-    return newToken;
+    res.status(201).send(jwt.generateAccessToken(decodedToken.userId));
 }
 
 module.exports = {

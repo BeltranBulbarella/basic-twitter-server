@@ -20,6 +20,7 @@ const authenticateToken = (req, res, next) => {
 }
 
 module.exports = {
+    decode: jwt.decode,
     generateAccessToken,
     authenticateToken
 }
